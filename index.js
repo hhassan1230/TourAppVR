@@ -12,11 +12,20 @@ import {
 
 import InfoPanel from './Components/InfoPanel';
 
+const surfaceModule = NativeModules.surfaceModule;
+
 export default class TourAppVR extends React.Component {
   render() {
     return (
       <View>
-
+        <Image source={asset(`poland.png`)} style={{width: 300, height: 300 }} />
+        <View style={styles.attractionBox}>
+          <VrButton onClick={() => surfaceModule.start()}>
+            <Text style={styles.attractionText}>
+              Welcome to Gdansk, Poland! Click Here Dog!
+            </Text>
+          </VrButton>
+        </View>  
       </View>
     );
   }

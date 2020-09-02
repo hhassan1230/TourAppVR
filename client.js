@@ -1,12 +1,15 @@
 // This file contains the boilerplate to execute your React app.
 // If you want to modify your application's content, start in "index.js"
 
-import {ReactInstance, Surface} from 'react-360-web';
+import {ReactInstance, Surface, Module} from 'react-360-web';
 
 function init(bundle, parent, options = {}) {
-  const r360 = new ReactInstance(bundle, parent, {
+  r360 = new ReactInstance(bundle, parent, {
     // Add custom options here
     fullScreen: true,
+    nativeModules: [
+      new surfaceModule(),
+    ],
     ...options,
   });
 
@@ -65,27 +68,38 @@ function init(bundle, parent, options = {}) {
     0
   );
 
-  r360.renderToSurface(
-      r360.createRoot('InfoPanel', {}),
-      marketPanel
-  );
-
-  r360.renderToSurface(
-    r360.createRoot('InfoPanel', {}),
-    shoppingPanel
-  );
-
-  r360.renderToSurface(
-    r360.createRoot('InfoPanel', {}),
-    museumPanel
-  );
-
-  r360.renderToSurface(
-    r360.createRoot('InfoPanel', {}),
-    restaurantPanel
-  );
-
   r360.compositor.setBackground(r360.getAssetURL('gdansk.jpg'));
 }
+
+class surfaceModule extends Module {
+  constructor() {
+    super('surfaceModule');
+  }
+
+  start() {
+    r360.renderToSurface(
+        r360.createRoot('InfoPanel', {}),
+        marketPanel
+    );
+
+    r360.renderToSurface(
+      r360.createRoot('InfoPanel', {}),
+      shoppingPanel
+    );
+
+    r360.renderToSurface(
+      r360.createRoot('InfoPanel', {}),
+      museumPanel
+    );
+
+    r360.renderToSurface(
+      r360.createRoot('InfoPanel', {}),
+      restaurantPanel
+    );
+
+    r360.detachRoot(introRoot);
+  }
+}
+
 
 window.React360 = {init};
